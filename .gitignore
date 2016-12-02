@@ -18,6 +18,7 @@ develop-eggs/
 parts/
 build/
 dist/
+python27/
 .cache
 eggs
 parts
