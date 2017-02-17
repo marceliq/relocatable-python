@@ -125,41 +125,6 @@ index aa69351..4717da9 100644
          'include': '{userbase}/include',
          'scripts': '{userbase}/bin',
          'data'   : '{userbase}',
-diff --git i/Lib/test/test_site.py w/Lib/test/test_site.py
-index f4b5fc6..c4dee8f 100644
---- i/Lib/test/test_site.py
-+++ w/Lib/test/test_site.py
-@@ -241,18 +241,23 @@ class HelperFunctionsTests(unittest.TestCase):
-             self.assertEqual(dirs[2], wanted)
-         elif os.sep == '/':
-             # OS X non-framwework builds, Linux, FreeBSD, etc
--            self.assertEqual(len(dirs), 2)
-             wanted = os.path.join('xoxo', 'lib', 'python' + sys.version[:3],
-+                                   'site-packages')
-+            self.assertEquals(len(dirs), 3)
-+            wanted = os.path.join('xoxo', 'lib64', 'python' + sys.version[:3],
-                                   'site-packages')
--            self.assertEqual(dirs[0], wanted)
-+            self.assertEquals(dirs[1], wanted)
-+            wanted = os.path.join('xoxo', 'lib', 'python' + sys.version[:3],
-+                                  'site-packages')
-+            self.assertEqual(dirs[2], wanted)
-             wanted = os.path.join('xoxo', 'lib', 'site-python')
--            self.assertEqual(dirs[1], wanted)
-+            self.assertEqual(dirs[3], wanted)
-         else:
-             # other platforms
--            self.assertEqual(len(dirs), 2)
--            self.assertEqual(dirs[0], 'xoxo')
--            wanted = os.path.join('xoxo', 'lib', 'site-packages')
--            self.assertEqual(dirs[1], wanted)
-+            self.assertEquals(len(dirs), 2)
-+            self.assertEquals(dirs[0], 'xoxo')
-+            wanted = os.path.join('xoxo', 'lib64', 'site-packages')
-+            self.assertEquals(dirs[1], wanted)
-
- class PthFile(object):
-     """Helper class for handling testing of .pth files"""
 diff --git i/Makefile.pre.in w/Makefile.pre.in
 index 9d55550..12195d0 100644
 --- i/Makefile.pre.in
