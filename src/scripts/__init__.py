@@ -102,6 +102,8 @@ def pack():
         buildout_file = 'buildout-pack-windows.cfg'
     elif system() == "AIX":
         buildout_file = 'buildout-pack-aix.cfg'
+    elif system() == "Linux":
+        buildout_file = 'buildout-pack-redhat-64bit.cfg'
     execte_buildout(buildout_file)
 
 def clean():
