@@ -4,10 +4,10 @@ PYTHON_PREFIX="/opt/salt/common/python27"
 SALT_PREFIX="/opt/salt"
 
 # Install pip
-#/opt/csw/bin/curl -L -J https://bootstrap.pypa.io/get-pip.py | ${PYTHON_PREFIX}/bin/python2.7
+/opt/csw/bin/curl -L -J https://bootstrap.pypa.io/get-pip.py | ${PYTHON_PREFIX}/bin/python2.7
 
 # Install "system wide" python modules pyzmq, psutil, virtualenv, glances
-#PATH=/usr/sfw/bin:$PATH PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig" ${PYTHON_PREFIX}/bin/pip install --no-cache-dir pyzmq psutil virtualenv glances
+PATH=/usr/sfw/bin:$PATH PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig" ${PYTHON_PREFIX}/bin/pip install --no-cache-dir pyzmq psutil virtualenv glances
 
 # Lookup for latest Salt version
 LATEST=`${PYTHON_PREFIX}/bin/pip search salt |egrep '^salt\ \([0-9][0-9][0-9][0-9]' |nawk -F '[()]' '{print $2}'`
@@ -26,7 +26,7 @@ pip install --global-option="--salt-root-dir=/opt/salt" --global-option="--salt-
 deactivate
 
 # Patch rsax931.py
-patch -i ${SALT_PREFIX}/rsax931.patch ${LATEST}/lib/python2.7/site-packages/salt/utils/rsax931.py || exit 1
+patch -i ${SALT_PREFIX}/rsax931.patch ${SALT_PREFIX}/${LATEST}/lib/python2.7/site-packages/salt/utils/rsax931.py || exit 1
 
 # Symlink latest to current
 rm ${SALT_PREFIX}/current
