@@ -1,0 +1,20 @@
+--- rsax931.py.orig	Tue Apr  4 11:28:22 2017
++++ rsax931.py	Tue Apr  4 11:30:54 2017
+@@ -35,12 +35,11 @@
+     else:
+         lib = find_library('crypto')
+         if not lib and salt.utils.is_sunos():
+-            # Solaris-like distribution that use pkgsrc have
+-            # libraries in a non standard location.
+-            # (SmartOS, OmniOS, OpenIndiana, ...)
+-            lib = glob.glob(os.path.join(
+-                '/opt/local/lib',
+-                'libcrypto.so*'))
++            # hack for Solaris 10 and custom location of libcrypto
++            if 'real_prefix' in dir(sys):
++                lib = glob.glob(os.path.join(sys.real_prefix, "*", "libcrypto.so*"))
++            else:
++                lib = glob.glob(os.path.join(sys.prefix, "*", "libcrypto.so*"))
+             lib = lib[0] if len(lib) > 0 else None
+         if lib:
+             return cdll.LoadLibrary(lib)
