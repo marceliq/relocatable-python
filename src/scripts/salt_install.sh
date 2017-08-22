@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#set -x
+
 PYTHON_PREFIX="/opt/centman/salt/dist"
 SALT_PREFIX="/opt/centman/salt"
 
@@ -20,6 +22,7 @@ case "`uname`" in
 
     Linux)
         linux=true
+        PATH=${PYTHON_PREFIX}/bin:$PATH
         ;;
 
     SunOS*)
@@ -57,7 +60,7 @@ PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig
 ${TAR} --extract --file=salt-${LATEST}.tar.gz salt-${LATEST}/requirements || exit 1
 
 # nainstalovat requirementy a uklidit zdrojaky saltu
-if $solaris; then
+if [ "$solaris" = true ]; then
     PATH=/usr/sfw/bin:$PATH PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig" ${PYTHON_PREFIX}/bin/pip install \
     --no-cache-dir \
     -r ${TMPDIR}/salt-${LATEST}/requirements/base.txt \
@@ -86,7 +89,7 @@ PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig
 --no-compile salt==${LATEST} || exit 1
 
 # opatchovani Saltu pro Solaris
-if $solaris; then
+if [ "$solaris" = true ]; then
     patch -i ${SALT_PREFIX}/src/patches/salt-${LATEST}-solaris-rsax931.patch ${PYTHON_PREFIX}/lib64/python2.7/site-packages/salt/utils/rsax931.py || exit 1
 fi
 
@@ -103,9 +106,12 @@ ${PYTHON_PREFIX}/lib64/python2.7/lib2to3/tests \
 ${PYTHON_PREFIX}/lib64/python2.7/sqlite3/test \
 ${PYTHON_PREFIX}/lib64/python2.7/test || exit 1
 
-for f in `find ${PYTHON_PREFIX} -type f | grep 'pyc$'`; do rm -f ${f}; done
+for f in `find ${PYTHON_PREFIX} -type f | egrep 'pyc$|pyo$'`; do rm -f ${f}; done
 
-if $solaris; then
+if [ "$solaris" = true ]; then
+    cd ${SALT_PREFIX}
+    tar -cf - bin/salt* bin/spm conf dist |gzip -c >${SALT_PREFIX}/salt-master-${LATEST}-`uname -s`-`uname -r`-`uname -p`.tar.gz
+else
     cd ${SALT_PREFIX}
     tar -cvf - bin/salt* bin/spm conf dist |gzip -c >/opt/salt/salt-minion-${LATEST}-`uname -s`-`uname -r`-`uname -p`.tar.gz
 fi
