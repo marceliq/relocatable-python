@@ -11,7 +11,7 @@ def test():
     from os import path, name
     from glob import glob
     basicConfig(level=DEBUG)
-    python = path.join('python27', 'bin', 'python%s' % ('.exe' if name == 'nt' else ''))
+    python = path.join('dist', 'bin', 'python%s' % ('.exe' if name == 'nt' else ''))
     getLogger(__name__).info("testing %s" % python)
     test_files = glob(path.join("tests", "test_*.py"))
     for test_file in test_files:
@@ -115,7 +115,7 @@ def clean():
     sep = '/'
     filepath = __file__.replace(path.sep, '/')
     base = abspath(sep.join([filepath, pardir, pardir, pardir]))
-    dist = sep.join([base, 'python27'])
+    dist = sep.join([base, 'dist'])
     parts = sep.join([base, 'parts'])
     installed_file = sep.join([base, '.installed-build.cfg'])
 

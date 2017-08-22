@@ -15,7 +15,7 @@ def get_sysconfigdata_files(environ):
                                                                 path.pardir,  # python__compile__,
                                                                 path.pardir,  # parts,
                                                                 path.pardir,  # python-build
-                                                                "python27")))
+                                                                "dist")))
     print 'dist = {0}'.format(dist)
     print 'sysconfig = {0!r}'.format(glob(path.join(dist, "*", "*", "_sysconfigdata.py")))
     for _sysconfigdata in glob(path.join(dist, "*", "*", "_sysconfigdata.py")):
