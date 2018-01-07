@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #set -x
 
-PYTHON_PREFIX="/opt/centman/salt/dist"
-SALT_PREFIX="/opt/centman/salt"
+PYTHON_PREFIX="/app/salt/dist"
+SALT_PREFIX="/app/salt"
 
 # Nastavi korekne utility dle platformy
 AWK=awk
