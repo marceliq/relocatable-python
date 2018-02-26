@@ -73,7 +73,7 @@ else
     --no-cache-dir \
     -r ${TMPDIR}/salt-${LATEST}/requirements/base.txt \
     -r ${TMPDIR}/salt-${LATEST}/requirements/zeromq.txt \
-    pygit2 cherrypy python-gnupg glances elasticsearch redis progressbar flask pysmb pysmbclient jira || exit 1
+    pygit2 cherrypy python-gnupg glances elasticsearch redis progressbar flask pysmb pysmbclient kafka-python certifi jira bpython progressbar || exit 1
 fi
 
 # vybalit minion conf do rootu saltu
