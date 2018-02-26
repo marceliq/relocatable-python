@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #set -x
 
-PYTHON_PREFIX="/app/salt/dist"
-SALT_PREFIX="/app/salt"
+PYTHON_PREFIX="/opt/centman/salt/dist"
+SALT_PREFIX="/opt/centman/salt"
 
 # Nastavi korekne utility dle platformy
 AWK=awk
@@ -73,7 +73,8 @@ else
     --no-cache-dir \
     -r ${TMPDIR}/salt-${LATEST}/requirements/base.txt \
     -r ${TMPDIR}/salt-${LATEST}/requirements/zeromq.txt \
-    pygit2 cherrypy python-gnupg glances elasticsearch redis progressbar flask pysmb pysmbclient kafka-python certifi jira bpython progressbar || exit 1
+    pygit2 cherrypy python-gnupg glances elasticsearch redis progressbar flask pysmb pysmbclient kafka-python certifi jira bpython progressbar Saltscaffold \
+    fabric pepa salt-pepper reclass || exit 1
 fi
 
 # vybalit minion conf do rootu saltu
