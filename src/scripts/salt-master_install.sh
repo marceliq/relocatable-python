@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #set -x
 
-PYTHON_PREFIX="/opt/centman/salt/dist"
-SALT_PREFIX="/opt/centman/salt"
+PYTHON_PREFIX="/app/salt/dist"
+SALT_PREFIX="/app/salt"
 
 # Nastavi korekne utility dle platformy
 AWK=awk
@@ -68,13 +68,43 @@ if [ "$solaris" = true ]; then
     glances elasticsearch redis progressbar|| exit 1
 else
     PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig" ${PYTHON_PREFIX}/bin/pip install \
-    --no-cache-dir --global-option=build_ext --global-option="-I${PYTHON_PREFIX}/include/" --global-option="--rpath=${PYTHON_PREFIX}/lib64" M2Crypto python-ldap || exit 1
+    --no-cache-dir --global-option=build_ext --global-option="-I${PYTHON_PREFIX}/include/" \
+    --global-option="--rpath=${PYTHON_PREFIX}/lib64" M2Crypto python-ldap || exit 1
     PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig" ${PYTHON_PREFIX}/bin/pip install \
     --no-cache-dir \
     -r ${TMPDIR}/salt-${LATEST}/requirements/base.txt \
     -r ${TMPDIR}/salt-${LATEST}/requirements/zeromq.txt \
-    pygit2 cherrypy python-gnupg glances elasticsearch redis progressbar flask pysmb pysmbclient kafka-python certifi jira bpython progressbar Saltscaffold \
-    fabric pepa salt-pepper reclass || exit 1
+    six \
+    jira \
+    certifi \
+    psutil \
+    glances \
+    elasticsearch \
+    kafka-python \
+    redis \
+    bpython \
+    Saltscaffold \
+    fabric \
+    pepa \
+    salt-pepper \
+    reclass \
+    cx_Oracle \
+    psycopg2 \
+    python-consul \
+    kazoo \
+    flask \
+    dohq-artifactory \
+    pygit2 \
+    cherrypy \
+    python-gnupg \
+    pysmb \
+    pysmbclient \
+    progressbar \
+    bottle \
+    azure \
+    croniter \
+    python-dateutil \
+    beautifulsoup4 || exit 1
 fi
 
 # vybalit minion conf do rootu saltu
