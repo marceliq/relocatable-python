@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #set -x
 
-PYTHON_PREFIX="/opt/salt/dist"
-SALT_PREFIX="/opt/salt"
+PYTHON_PREFIX="/app/common/salt/dist"
+SALT_PREFIX="/app/common/salt"
 
 # Nastavi korekne utility dle platformy
 AWK=awk
@@ -68,6 +68,9 @@ if [ "$solaris" = true ]; then
     glances elasticsearch redis progressbar|| exit 1
 else
     PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig" ${PYTHON_PREFIX}/bin/pip install \
+    --no-cache-dir --global-option=build_ext --global-option="-I${PYTHON_PREFIX}/include/" \
+    --global-option="--rpath=${PYTHON_PREFIX}/lib64" M2Crypto || exit 1
+    PKG_CONFIG_PATH="${PYTHON_PREFIX}/lib64/pkgconfig:${PYTHON_PREFIX}/lib/pkgconfig" ${PYTHON_PREFIX}/bin/pip install \
     --no-cache-dir \
     -r ${TMPDIR}/salt-${LATEST}/requirements/base.txt \
     -r ${TMPDIR}/salt-${LATEST}/requirements/zeromq.txt \
@@ -125,9 +128,9 @@ for f in `find ${PYTHON_PREFIX} -type f | egrep 'pyc$|pyo$'`; do rm -f ${f}; don
 
 if [ "$solaris" = true ]; then
     cd ${SALT_PREFIX}
-    tar -cf - bin/salt* bin/spm conf dist |gzip -c >${SALT_PREFIX}/salt-minion-${LATEST}-`uname -s`-`uname -r`-`uname -p`.tar.gz
+    tar -cf - bin/salt* bin/spm conf-${LATEST} dist |gzip -c >${SALT_PREFIX}/salt-minion-${LATEST}-`uname -s`-`uname -r`-`uname -p`.tar.gz
 else
     cd ${SALT_PREFIX}
-    tar -cvf - bin/salt* bin/spm conf dist |gzip -c >${SALT_PREFIX}/salt-minion-${LATEST}-`uname -s`-`uname -p`.tar.gz
+    tar -cf - bin/salt* bin/spm conf-${LATEST} dist |gzip -c >${SALT_PREFIX}/salt-minion-${LATEST}-`uname -s`-`uname -p`.tar.gz
 fi
 
