@@ -104,6 +104,7 @@ else
     azure \
     croniter \
     python-dateutil \
+    Pygments \
     beautifulsoup4 || exit 1
 fi
 
