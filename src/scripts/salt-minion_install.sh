@@ -127,10 +127,10 @@ ${PYTHON_PREFIX}/lib64/python2.7/test || exit 1
 for f in `find ${PYTHON_PREFIX} -type f | egrep 'pyc$|pyo$'`; do rm -f ${f}; done
 
 if [ "$solaris" = true ]; then
-    cd ${SALT_PREFIX}
-    tar -cf - bin/salt* bin/spm conf-${LATEST} dist |gzip -c >${SALT_PREFIX}/salt-minion-${LATEST}-`uname -s`-`uname -r`-`uname -p`.tar.gz
+    cd ${SALT_PREFIX}/..
+    tar -cf - salt/bin/salt* salt/bin/spm salt/dist |gzip -c >${SALT_PREFIX}/salt-minion-${LATEST}-`uname -s`-`uname -r`-`uname -p`.tar.gz
 else
-    cd ${SALT_PREFIX}
-    tar -cf - bin/salt* bin/spm conf-${LATEST} dist |gzip -c >${SALT_PREFIX}/salt-minion-${LATEST}-`uname -s`-`uname -p`.tar.gz
+    cd ${SALT_PREFIX}/..
+    tar -cf - salt/bin/salt* salt/bin/spm salt/dist |gzip -c >${SALT_PREFIX}/salt-minion-${LATEST}-`uname -s`-`uname -p`.tar.gz
 fi
 
